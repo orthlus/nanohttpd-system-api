@@ -46,7 +46,8 @@ public class Main extends RouterNanoHTTPD {
 		if (authorization == null)
 			return newFixedLengthResponse(Response.Status.UNAUTHORIZED, MIME_PLAINTEXT, "");
 
-		String[] cr = new String(Base64.getDecoder().decode(authorization)).split(":");
+		String header = authorization.replaceAll("^Basic ", "");
+		String[] cr = new String(Base64.getDecoder().decode(header)).split(":");
 
 		if (cr[0].equals(login) && cr[1].equals(password))
 			try {
