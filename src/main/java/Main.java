@@ -1,6 +1,5 @@
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.router.RouterNanoHTTPD;
-import handlers.Handlers;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -41,7 +40,8 @@ public class Main extends RouterNanoHTTPD {
 
 	@Override
 	public Response serve(IHTTPSession session) {
-		String[] cr = new String(Base64.getDecoder().decode(session.getHeaders().get("Authorization"))).split(":");
+		String authorization = session.getHeaders().get("Authorization");
+		String[] cr = new String(Base64.getDecoder().decode(authorization)).split(":");
 
 		if (cr[0].equals(login) && cr[1].equals(password))
 			return super.serve(session);
