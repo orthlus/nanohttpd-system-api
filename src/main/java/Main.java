@@ -12,6 +12,7 @@ public class Main extends RouterNanoHTTPD {
 
 	public Main(int port) throws IOException {
 		super(port);
+		addMappings();
 		start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
 		System.out.println("Server running on port " + port);
 	}
@@ -24,6 +25,7 @@ public class Main extends RouterNanoHTTPD {
 			int port = parseInt(args[0]);
 			login = args[1];
 			password = args[2];
+
 			new Main(port);
 		} catch (Exception e) {
 			System.err.println("Arguments: port, login, password");
@@ -44,7 +46,11 @@ public class Main extends RouterNanoHTTPD {
 		String[] cr = new String(Base64.getDecoder().decode(authorization)).split(":");
 
 		if (cr[0].equals(login) && cr[1].equals(password))
-			return super.serve(session);
+			try {
+				return super.serve(session);
+			} catch (InternalErrorResponseException e) {
+				return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, e.getMessage());
+			}
 		else
 			return newFixedLengthResponse(Response.Status.UNAUTHORIZED, MIME_PLAINTEXT, "");
 	}
