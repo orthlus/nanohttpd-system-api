@@ -5,6 +5,8 @@ import handlers.Handlers;
 import java.io.IOException;
 import java.util.Base64;
 
+import static java.lang.Integer.parseInt;
+
 public class Main extends RouterNanoHTTPD {
 	private static String login;
 	private static String password;
@@ -20,12 +22,13 @@ public class Main extends RouterNanoHTTPD {
 			if (args.length != 3) {
 				throw new IllegalAccessException();
 			}
+			int port = parseInt(args[0]);
 			login = args[1];
 			password = args[2];
-			new Main(Integer.parseInt(args[0]));
+			new Main(port);
 		} catch (Exception e) {
+			System.err.println("Arguments: port, login, password");
 			System.err.println("Couldn't start server:\n" + e);
-			System.err.println("arguments: port, login, password");
 		}
 	}
 
