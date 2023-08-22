@@ -42,7 +42,10 @@ public class Main extends RouterNanoHTTPD {
 
 	@Override
 	public Response serve(IHTTPSession session) {
-		String authorization = session.getHeaders().get("Authorization");
+		String authorization = session.getHeaders().get("authorization");
+		if (authorization == null)
+			return newFixedLengthResponse(Response.Status.UNAUTHORIZED, MIME_PLAINTEXT, "");
+
 		String[] cr = new String(Base64.getDecoder().decode(authorization)).split(":");
 
 		if (cr[0].equals(login) && cr[1].equals(password))
