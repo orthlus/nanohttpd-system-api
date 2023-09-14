@@ -18,6 +18,7 @@ public class Main extends RouterNanoHTTPD {
 	}
 
 	public static void main(String[] args) {
+//		args = new String[] {"8080", "admin", "password"};
 		try {
 			if (args.length != 3) {
 				throw new IllegalAccessException();
