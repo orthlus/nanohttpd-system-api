@@ -1,1 +1,0 @@
-FROM ghcr.io/graalvm/native-image:ol7-java17-22.3.3
